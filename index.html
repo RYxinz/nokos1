@@ -3,107 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRAMZX DASHBOARD</title>
+    <title>BRAMZX PREMIUM</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root { --primary: #00d2ff; --dark: #0f172a; --card: #1e293b; --green: #10b981; }
+        :root { --primary: #00d2ff; --dark: #0b0f1a; --card: #161e2d; }
         body { font-family: 'Inter', sans-serif; background: var(--dark); color: white; margin: 0; padding: 15px; }
-
-        /* Running Text */
-        .news-ticker {
-            background: rgba(0, 210, 255, 0.1); color: var(--primary);
-            padding: 8px; font-size: 11px; border-radius: 8px;
-            margin-bottom: 15px; overflow: hidden; white-space: nowrap;
-        }
-        .ticker-text { display: inline-block; animation: marquee 15s linear infinite; }
-        @keyframes marquee { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
-
-        /* Header & Info */
-        .header { background: var(--card); padding: 15px; border-radius: 20px; border: 1px solid #334155; margin-bottom: 20px; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .stat-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-item small { font-size: 10px; color: #94a3b8; }
-        .stat-item div { font-weight: bold; font-size: 14px; }
-
-        /* Tombol Utama */
-        .btn-main {
-            width: 100%; height: 70px;
-            background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
-            border: none; border-radius: 18px; color: white;
-            font-size: 1.3rem; font-weight: 800; cursor: pointer;
-            box-shadow: 0 8px 25px rgba(0, 210, 255, 0.4); margin-bottom: 20px;
-        }
-
-        /* Menu Grid */
-        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-        .menu-item {
-            background: var(--card); padding: 15px 5px; border-radius: 15px;
-            text-align: center; font-size: 11px; border: 1px solid #334155;
-        }
-        .menu-item i { font-size: 20px; display: block; margin-bottom: 5px; }
-
-        /* Server List */
-        .server-card {
-            background: var(--card); border-radius: 18px; padding: 18px;
-            border: 1px solid #334155; margin-bottom: 12px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .status-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; display: inline-block; margin-right: 5px; }
-        
-        .price-badge { background: rgba(0, 210, 255, 0.2); color: var(--primary); padding: 5px 10px; border-radius: 8px; font-weight: bold; font-size: 12px; }
-
-        /* Bottom Nav (Simulasi) */
-        .bottom-nav { text-align: center; padding-top: 20px; border-top: 1px solid #334155; margin-top: 20px; }
+        .header { background: var(--card); padding: 15px; border-radius: 15px; border: 1px solid #2d3748; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-main { width: 100%; height: 60px; background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%); border: none; border-radius: 12px; color: white; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3); }
+        .server-card { background: var(--card); border-radius: 15px; padding: 15px; border: 1px solid #2d3748; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+        .server-card:active { transform: scale(0.98); background: #1f2937; }
+        .price-badge { background: rgba(0, 210, 255, 0.15); color: var(--primary); padding: 5px 12px; border-radius: 8px; font-weight: bold; font-size: 13px; }
+        .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        #menu-buy { display: none; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="news-ticker">
-        <div class="ticker-text">🔥 UPDATE: Stok Server S1 Negara Indonesia & USA Baru Saja Masuk! | ⚡ Gunakan Saweria untuk proses deposit instan 24 jam!</div>
-    </div>
-
     <div class="header">
-        <div style="display: flex; justify-content: space-between;">
-            <div>
-                <b id="u-name" style="font-size: 18px;">Bramzx User</b><br>
-                <span style="font-size: 10px; background: #3b82f6; padding: 2px 8px; border-radius: 5px;">BRONZE MEMBER</span>
-            </div>
-            <div style="text-align: right;">
-                <small style="color:#94a3b8">Saldo</small><br>
-                <b id="u-saldo" style="color:var(--primary); font-size: 18px;">Rp 0</b>
-            </div>
-        </div>
+        <div><b id="u-name">User</b><br><small style="color: #94a3b8;">Premium Member</small></div>
+        <div style="text-align: right;"><small>Saldo</small><br><b style="color: var(--primary);">Auto-Sync</b></div>
+    </div>
+
+    <button class="btn-main" onclick="toggleMenu()">OTP KU</button>
+
+    <div id="menu-buy">
+        <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">PILIH SERVER TERSEDIA</p>
         
-        <div class="stats-grid">
-            <div class="stat-item">
-                <small>TERJUAL</small>
-                <div>1,283</div>
-            </div>
-            <div class="stat-item">
-                <small>USER AKTIF</small>
-                <div>452</div>
-            </div>
+        <div class="server-card" onclick="beli('S1', 2000)">
+            <div><span class="status-dot"></span> <b>SERVER S1</b><br><small style="color:#64748b">WhatsApp Fast</small></div>
+            <div class="price-badge">Rp 2.xxx</div>
+        </div>
+
+        <div class="server-card" onclick="beli('S2', 1500)">
+            <div><span class="status-dot"></span> <b>SERVER S2</b><br><small style="color:#64748b">WhatsApp Reguler</small></div>
+            <div class="price-badge">Rp 1.xxx</div>
         </div>
     </div>
 
-    <button class="btn-main" onclick="toggleMenu('buy-section')">OTP KU</button>
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        document.getElementById('u-name').innerText = tg.initDataUnsafe.user.first_name;
 
-    <div class="menu-grid">
-        <div class="menu-item" onclick="tg.showAlert('Fitur Riwayat Segera Hadir')">
-            <i>📜</i> History
-        </div>
-        <div class="menu-item" onclick="window.location.href='https://saweria.co/bramzx'">
-            <i>💳</i> Deposit
-        </div>
-        <div class="menu-item" onclick="window.location.href='https://t.me/Xqwinn'">
-            <i>👨‍💻</i> CS Admin
-        </div>
-    </div>
+        function toggleMenu() {
+            let m = document.getElementById('menu-buy');
+            m.style.display = (m.style.display === 'none' || m.style.display === '') ? 'block' : 'none';
+        }
 
-    <div id="buy-section" style="display: none;">
-        <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">SILAKAN PILIH SERVER</p>
-        
-        <div class="server-card" onclick="alert('Checkout S1')">
+        function beli(srv, minPrice) {
+            let fixPrice = minPrice + Math.floor(Math.random() * 800);
+            let konfirmasi = confirm(`Konfirmasi Pembelian:\nServer: ${srv}\nHarga: Rp ${fixPrice}\n\nLanjutkan?`);
+            
+            if (konfirmasi) {
+                // MENGIRIM DATA KE BOT (JS)
+                tg.sendData(JSON.stringify({
+                    action: 'saldo',
+                    srv: srv,
+                    price: fixPrice
+                }));
+                tg.close();
+            }
+        }
+    </script>
+</body>
+</html>
             <div>
                 <span class="status-dot"></span> <b>SERVER S1</b><br>
                 <small style="color:#64748b">WhatsApp Premium</small>
